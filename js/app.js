@@ -110,7 +110,6 @@ $(function(){
 					reservationClient = nouveauClientId;
 				}
 				
-				console.log("nouveau client", nouveauClientId);
 				db.run("INSERT INTO reservation VALUES (?,?,?,?,?,?,?)", [, reservationArrivee, reservationDepart, reservationChambre, reservationHotel, reservationFormule, reservationClient]);
 				$(this)[0].reset();
 				modalReservation.modal('hide')
@@ -127,7 +126,7 @@ $(function(){
 			// Actions
 			chambresArea.on("click", ".modifier-chambre", function() {
 				var chambreId = $(this).data("chambre-id");
-				console.log(chambreId);
+				
 				setModal(modalChambre, "Modifier chambre", "Modifier", "update", chambreId)
 				// db.exec(`DELETE FROM chambre WHERE id_chambre ="${chambreId}"`);
 				afficheChambre(getChambresList()[0].values);
@@ -136,14 +135,14 @@ $(function(){
 
 			chambresArea.on("click", ".supprimer-chambre", function() {
 				var chambreId = $(this).data("chambre-id");
-				console.log(chambreId);
+				
 				db.exec(`DELETE FROM chambre WHERE id_chambre ="${chambreId}"`);
 				afficheChambre(getChambresList()[0].values);
 			});
 
 			reservationsArea.on("click", ".supprimer-reservation", function() {
 				var reservationId = $(this).data("reservation-id");
-				console.log(reservationId);
+				
 				db.exec(`DELETE FROM reservation WHERE id_reservation ="${reservationId}"`);
 				afficheReservations(getReservationList()[0].values);
 			});
@@ -175,7 +174,7 @@ $(function(){
 			}
 	
 			function afficheChambre(chambreValues) {
-				console.log(chambreValues);
+				
 				var html = "";
 				for (var i = 0; i < chambreValues.length; i++) {
 					var chambre = chambreValues[i];
@@ -193,7 +192,7 @@ $(function(){
 			}
 	
 			function afficheReservations(reservationValues) {
-				console.log(reservationValues);
+				
 				var html = "";
 				for (var i = 0; i < reservationValues.length; i++) {
 					var reservation = reservationValues[i];
@@ -225,7 +224,7 @@ $(function(){
 			}
 	
 			function getChambres(idHotel) {
-				console.log(idHotel)
+				
 				var stmt = db.prepare("SELECT * FROM chambre WHERE chambre.id_hotel=$hotelchoisi");
 				stmt.getAsObject({$hotelchoisi:idHotel});
 		  
@@ -254,14 +253,7 @@ $(function(){
 			}
 	
 	
-			// actions
-	
-			function displayError(error) {
-				errorsArea.text(error);
-				console.log(error);
-			}
-			  
-	
+			// actions	
 			function setModal(modal, title, buttonText, action, id) {
 				modal.find(".modal-title").text(title);
 				modal.find("form").data("action", action);
@@ -273,7 +265,7 @@ $(function(){
 			function setFormulaireChambre(idChambre) {
 				chambre = getChambre(idChambre);
 				modalChambre.find("form").data("action","update").data("update",idChambre);
-				console.log(chambre);
+				
 				$("#chambreConfort").val(chambre.id_chambre);
 				$("#chambreCapacite").val(chambre.capacite);
 				$("#chambreTarif").val(chambre.tarif);
