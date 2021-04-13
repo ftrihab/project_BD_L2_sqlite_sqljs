@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hotel's Booking</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+
+<body class="body">
+
+    <!-- <h1>Hotel's Booking</h1>
+    <p>Trouvez l'hôtel de votre choix dans la destination de votre choix ! ✈</p>
+    
+    <section id="accueil">
+        
+        <form action="form" class="formulaire">
+            <div>
+                <span>
+                    <select id="name_ville" name="name_ville" required>
+                        <option selected>Où allez-vous ?</option>
+                        <option>Ballarat</option>
+                        <option>Barcelone</option>
+                        <option>Glasgow</option>
+                        <option>Istanbul</option>
+                        <option>Lincoln</option>
+                        <option>Niagara</option>
+                        <option>Patras</option>
+                        <option>Pezenas</option>
+                        <option>Riga</option>
+                        <option>Zagreb</option>
+                    </select>
+                </span>
+
+                <input type="date" name="date_a" class="date" placeholder="Arrivée" required>
+
+                <input type="date" name="date_d" class="date" placeholder="Départ" required>
+
+                <input type="number" id="adulte" name="adulte" min="1" max="10" placeholder="Nombre d'adulte" required>
+                
+                <input type="number" id="enfant" name="enfant" min="0" max="10" placeholder="Nombre d'enfant" required>
+
+                s<input type="number" id="chambre" name="chambre" min="1" max="10" placeholder="Nombre de chambre" required>
+
+                <input type="submit" class="rechercher" value="rechercher" required>
+            </div>
+        </form>
+
+    </section> -->
+    <div class="fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Hotel's Booking</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div class="navbar-nav">
+                <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="pills-hotels-tab" data-toggle="pill" href="#pills-hotels" role="tab" aria-controls="pills-hotels" aria-selected="true">Les hotels</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="pills-chambres-tab" data-toggle="pill" href="#pills-chambres" role="tab" aria-controls="pills-chambres" aria-selected="false">Les chambres</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="pills-reservation-tab" data-toggle="pill" href="#pills-reservation" role="tab" aria-controls="pills-reservation" aria-selected="false">Les réservations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="views.html">Les views</a>
+                    </li>
+                </ul>
+            </div>
+            </div>
+          </nav>
+    </div>
+    <div class="container">
+        <div class="tab-content" id="pills-tabContent" style="padding-top: 100px;">
+            <div class="tab-pane fade show active" id="pills-hotels" role="tabpanel" aria-labelledby="pills-hotels-tab" style="margin: 0 -4px 20px;">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-info mb-3" data-toggle="modal" data-target="#AjouterHotelModal">
+                    Ajouter un nouveau hotel
+                </button>
+                <p>Filtrer Les hôtels par ville</p>
+                <div id="villes"></div>
+                <table id="table" class="table table-light">
+                    <thead>
+                        <th>Identifiant</th>
+                        <th>Nom</th>
+                        <th>Ville</th>
+                        <th>Nombre d'étoiles</th>
+                    </thead>
+                    <tbody id="hotels-table-content"></tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="pills-chambres" role="tabpanel" aria-labelledby="pills-chambres-tab">
+                <table id="table" class="table table-light">
+                    <thead>
+                        <th>Identifiant</th>
+                        <th>Capacité</th>
+                        <th>Tarif</th>
+                        <th>Hotel</th>
+                        <th>Actions</th>
+                    </thead>
+                    <tbody id="chambres-table-content"></tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="pills-reservation" role="tabpanel" aria-labelledby="pills-reservation-tab">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-info mb-3" data-toggle="modal" data-target="#reservationModal">
+                    Ajouter une réservation
+                </button>
+                <table class="table table-light">
+                    <thead>
+                        <th>Numéro</th>
+                        <th>Date Arrivée</th>
+                        <th>Date de départ</th>
+                        <th>Chambre</th>
+                        <th>Hotel</th>
+                        <th>Formule</th>
+                        <th>Numéro client</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody id="reservations-table-content"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="AjouterHotelModal" tabindex="-1" role="dialog" aria-labelledby="AjouterHotelModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="AjouterHotelModalLabel">Ajouter un hotel</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="" id="formAjoutHotel">
+                <div class="modal-body">
+                
+                    <div class="form-group">
+                        <label for="hotelNom">Nom</label>
+                        <input type="text" class="form-control" id="hotelNom" aria-describedby="emailHelp" placeholder="Nom de l'hotel">
+                      </div>
+                      <div class="form-group">
+                        <label for="hotelVille">Ville</label>
+                        <input type="text" class="form-control" id="hotelVille" placeholder="Ville">
+                      </div>
+                      <div class="form-group">
+                        <label for="hotelEtoiles">Nombre d'étoiles</label>
+                        <input type="number" id="hotelEtoiles" placeholder="Nombre d'étoiles">
+                      </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-info" id="actionAjouterHotel">Ajouter</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="chambreModal" tabindex="-1" role="dialog" aria-labelledby="chambreModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="chambreModalLabel">Ajouter un hotel</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="" id="formChambre" data-action="update" data-update="">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="chambreConfort">Confort</label>
+                        <select class="form-control" id="chambreConfort">
+                            <option value="1">WC + bain</option>
+                            <option value="2">WC + douche </option>
+                            <option value="3">WC + bain + douche</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="chambreCapacite">Capacité</label>
+                        <input type="number" class="form-control" id="chambreCapacite" placeholder="Capacité">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="chambreTarif">Tarif</label>
+                        <input type="text" class="form-control" id="chambreTarif" placeholder="Tarif">
+                    </div>
+                      
+                    <div class="form-group">
+                        <label for="chambreHotel">Hotel</label>
+                        <select class="form-control" id="chambreHotel">
+                            
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-info" id="actionChambre">Ajouter</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="reservationModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reservationModalLabel">Ajouter une réservation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="" id="formReservation">
+                <div class="modal-body">
+                    <div class="error"></div>
+                    <div class="form-group">
+                        <label for="reservationArrive">Date d'arrivée</label>
+                        <input type="date" class="form-control" id="reservationArrive" placeholder="Date d'arrivée">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reservationDepart">Date de départ</label>
+                        <input type="date" class="form-control" id="reservationDepart" placeholder="Date de départ">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reservationHotel">Hotel</label>
+                        <input type="number" class="form-control" id="reservationHotel" placeholder="Identifiant hotel">
+                    </div>
+                      
+                    <div class="form-group">
+                        <label for="reservationChambre">Chambre</label>
+                        <input type="number" class="form-control" id="reservationChambre" placeholder="Identifiant chambre">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reservationFormule">Formule</label>
+                        <select class="form-control" id="reservationFormule">
+                            <option value="1">Petit-dejeuner</option>
+                            <option value="2">Petit-dejeuner + Diner</option>
+                            <option value="3">Pension complète</option>
+                            <option value="4">Pension complète + Activités</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reservationClient">Identifiant client</label>
+                        <input type="number" id="reservationClient" class="form-control" placeholder="Identifiant client" />
+                    </div>
+
+                    <legend>Information client (uniquement si identifiant client est vide)</legend>
+                    <div class="form-group">
+                        <label for="nomClient">Nom</label>
+                        <input type="text" id="nomClient" class="form-control" placeholder="Nom client" />
+                    </div>
+                    <div class="form-group">
+                        <label for="prenomClient">Prénom</label>
+                        <input type="text" id="prenomClient" class="form-control" placeholder="Prénom client" />
+                    </div>
+                    <div class="form-group">
+                        <label for="telClient">Numéro téléphone</label>
+                        <input type="text" id="telClient" class="form-control" placeholder="Numéro téléphone client" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-info" id="actionReservation">Ajouter</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+
+
+    
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="js/sql.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
